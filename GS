@@ -1,0 +1,200 @@
+!pip install openai
+ 
+import openai
+from openai import OpenAI
+from google.colab import userdata
+ 
+client = OpenAI(api_key=userdata.get('OPENAI_API_KEY'))
+
+# A proposta feita pelo professor pedia para que a IA respondesse a 3 tipos de afetados por desastres naturais: Vítimas, Moradores da região afetada e Familiares das vítimas
+context = ''' Guia de Resposta para Qualquer Pessoa Perguntando o Que Fazer em Caso de Desastre Natural
+Manter a calma e evitar pânico
+O primeiro passo em qualquer desastre é manter a calma. O pânico pode dificultar decisões rápidas e eficazes. Respire fundo e procure agir de forma racional.
+ 
+Acompanhar fontes de informação confiáveis
+Utilize fontes oficiais, como Defesa Civil, Corpo de Bombeiros, Prefeituras e outros órgãos governamentais para obter informações precisas. Evite boatos ou redes sociais sem verificação.
+ 
+Seguir as instruções das autoridades locais
+Sempre priorize as orientações das autoridades. Elas indicam ações específicas como evacuação, abrigos temporários, locais seguros e medidas preventivas.
+ 
+Avaliar o risco imediato e agir rapidamente
+Observe o ambiente ao seu redor. Riscos como tremores, deslizamentos, fumaça, alagamento ou ventos fortes requerem ação imediata para proteção.
+ 
+Proteger-se de riscos diretos (ex: objetos soltos, estruturas instáveis, fogo, água, fumaça)
+Evite áreas com estruturas danificadas, árvores caídas, fios elétricos expostos, correnteza ou fogo. Identifique perigos e afaste-se.
+ 
+Buscar abrigo seguro e apropriado
+Dependendo do desastre, procure refúgio em locais seguros: locais altos (enchentes), áreas abertas (terremotos), interiores sem janelas (furacões/tornados), etc.
+ 
+Ter um kit de emergência
+Inclua água potável, alimentos não perecíveis, lanterna, pilhas, documentos, medicamentos e itens de primeiros socorros.
+ 
+Evitar sair do local seguro até orientação oficial
+Fique onde estiver seguro até que as autoridades confirmem que é seguro sair. Evitar movimentação desnecessária pode evitar acidentes.
+ 
+Manter contato com familiares e amigos
+Avise pessoas próximas sobre sua situação. Isso facilita apoio e reduz a ansiedade entre familiares.
+ 
+Cuidar da saúde e higiene após o desastre
+Após o evento, há riscos como contaminação, doenças respiratórias e ferimentos. Mantenha a higiene e evite contato com materiais perigosos.
+ 
+Evitar retornar a áreas afetadas até liberação oficial
+Só volte para áreas impactadas após liberação das autoridades. Pode haver riscos ocultos como instabilidade do solo ou estruturas comprometidas.
+ 
+Criar um plano para futuros desastres
+Planeje rotas de fuga, locais seguros e mantenha um kit de emergência pronto. Isso ajuda a responder melhor em futuras ocorrências. '''
+ 
+context1 =  '''Guia de Resposta a uma Vítima de Desastre Natural
+Manter a calma e oferecer suporte emocional
+Acolha a vítima. Reconheça seu medo, valide suas emoções e ofereça clareza sobre os próximos passos.
+ 
+Avaliar a situação imediata
+Pergunte se ela está em local seguro. Se houver qualquer ameaça (fogo, água, fumaça, estrutura instável), oriente uma saída imediata, se possível.
+ 
+Recomendar movimentação para locais seguros
+Oriente com base no tipo de desastre: locais altos (enchentes), áreas abertas (terremotos), áreas protegidas (tempestades, tornados).
+ 
+Evitar áreas de risco imediato
+Oriente a evitar postes caídos, áreas com fogo, deslizamentos, fumaça densa, entulhos ou locais com risco de colapso.
+ 
+Buscar abrigo seguro
+Indique abrigos públicos ou locais protegidos. Utilize escolas, centros comunitários ou abrigos indicados por autoridades.
+ 
+Manter-se informado por canais oficiais
+Oriente a seguir canais confiáveis para atualizações e instruções.
+ 
+Recomendar recursos de sobrevivência
+Oriente sobre a importância de ter água, alimentos, medicamentos, lanterna e itens essenciais, se estiver isolada.
+ 
+Economizar o uso do telefone
+Oriente a usar o telefone apenas quando necessário para evitar sobrecarga das redes.
+ 
+Alertar sobre o retorno prematuro a locais de risco
+Só volte para casa quando for seguro. Há risco de novos desastres, desabamentos ou contaminações.
+ 
+Orientar como manter contato com familiares
+Sugira uso de redes sociais, mensagens ou pontos de encontro combinados anteriormente.
+ 
+Alertar para cuidados com a saúde
+Oriente a evitar consumo de água/ alimentos suspeitos e a manter higiene pessoal, principalmente em situações de contaminação ambiental.
+ 
+Finalizar com apoio e orientação
+Reforce que ela não está sozinha, que a prioridade é sua segurança, e que as autoridades estão atuando para ajudá-la.'''
+ 
+context2 = '''Guia de Resposta a um Morador da Região Afetada por desastre:
+ 
+1. Manter a calma e garantir apoio emocional
+ 
+A primeira coisa a fazer é acolher o residente, garantindo que ele saiba que você está ali para orientá-lo e ajudá-lo a tomar as melhores decisões.
+ 
+2. Monitorar os alertas de emergência e fontes oficiais
+ 
+Oriente o residente a se manter informado, sempre conferindo fontes confiáveis, como a Defesa Civil, a Prefeitura e o Corpo de Bombeiros, para as últimas atualizações.
+ 
+3. Avaliar o nível de risco da sua área
+ 
+Pergunte ao residente sobre a localização e a intensidade da inundação, para avaliar o risco imediato. Se ele estiver em um local seguro, a orientação será de monitorar a situação. Caso contrário, oriente a evacuação imediata.
+ 
+ 
+4. Buscar abrigo em locais seguros
+ 
+Caso o residente esteja em risco, oriente sobre a importância de se deslocar para um abrigo seguro, como um andar superior ou áreas mais altas do bairro. Se ele não puder sair, que permaneça em segurança no local em que está.
+ 
+5. Evitar áreas de risco: correnteza e fiação elétrica
+ 
+Explique os perigos imediatos, como a correnteza da água e o risco de choques elétricos devido à fiação danificada.
+ 
+6. Prestar atenção aos serviços de emergência
+ 
+Caso a situação fique mais crítica e o residente precise de ajuda para evacuar, oriente sobre os números de emergência e os protocolos de resgate.
+ 
+7. Evitar riscos ao sair de casa durante o pico da inundação
+ 
+Deixe claro que, se o nível da água estiver muito alto, sair pode ser perigoso, e que o melhor é aguardar até que as autoridades deem sinal de que é seguro se mover.
+ 
+8. Organizar um kit de emergência
+ 
+Caso o residente tenha tempo e condições de se preparar, oriente sobre como montar um kit de emergência com itens essenciais, caso precise ficar preso por um tempo.
+ 
+9. Manter-se atualizado sobre a previsão do tempo
+ 
+Oriente o residente a se manter atento às previsões meteorológicas para entender se o pior da tempestade já passou ou se há risco de mais chuvas fortes.
+ 
+10. Após a inundação, tomar cuidados com a saúde
+ 
+Após a inundação, existem riscos de contaminação pela água. Oriente sobre cuidados com a higiene e precauções para evitar doenças transmitidas por água contaminada.
+ 
+11. Evitar retornar a áreas de risco até que a situação seja totalmente segura
+ 
+Após a inundação, avise o residente para evitar retornar para áreas afetadas até que as autoridades indiquem que é seguro fazer isso.
+ 
+12. Comunicar-se com outros residentes e familiares
+ 
+Incentive o residente a manter contato com familiares e vizinhos para coordenar esforços de evacuação e garantir que todos estão seguros.
+ 
+13. Organizar um plano de evacuação para futuros desastres
+ 
+Por fim, se a situação melhorar, oriente o residente a começar a pensar em medidas preventivas para o futuro, como planos de evacuação e locais seguros.
+ 
+Conclusão:
+A segurança e o bem-estar do residente são a prioridade número um. O guia fornece uma abordagem clara e prática, com foco em como agir rapidamente para se proteger e como se manter informado. Lembrar de manter a calma e seguir as orientações das autoridades é essencial para superar momentos críticos como esse.'''
+ 
+context3 = ''' Guia de Resposta a um Familiar de uma Vítima de Desastre Natural
+Oferecer apoio emocional e tranquilidade
+Mostre empatia, escute a angústia da pessoa e oriente com calma.
+ 
+Confirmar a situação e localização da vítima
+Sugira tentar contato direto ou por redes sociais. Caso não consiga, indique seguir informações oficiais.
+ 
+Buscar atualizações sobre o desastre
+Oriente o familiar a monitorar a situação através de previsões e boletins das autoridades.
+ 
+Orientar familiares em outras áreas de risco
+Caso existam, incentive medidas de prevenção como evacuação ou busca de abrigo.
+ 
+Acompanhar informações sobre abrigos públicos
+Forneça endereços e contatos de abrigos temporários ou centros de apoio.
+ 
+Evitar ações impulsivas que coloquem a vida em risco
+Reforce que tentar acessar áreas perigosas pode piorar a situação.
+ 
+Manter contato com os serviços de emergência
+Ensine os meios de contato com resgate ou centros de informação.
+ 
+Evitar informações não confirmadas
+Sugira checar sempre nas fontes confiáveis para evitar desinformação.
+ 
+Pensar em medidas preventivas de longo prazo
+Planejar rotas de fuga, locais de abrigo e kits de emergência para o futuro.
+ 
+Ajudar no pós-desastre
+Oriente sobre os passos para lidar com perdas materiais, apoio psicológico e recuperação.
+ 
+Oferecer suporte constante
+Apoio emocional contínuo é essencial para recuperação de todos os envolvidos.
+Conclusão:
+A prioridade é a segurança de todos os envolvidos. Além disso, a comunicação constante com fontes oficiais, como a Defesa Civil e a Prefeitura, é essencial para que o familiar possa agir com precisão e de maneira segura.'''
+
+# Utilizando a open IA fizemos com que o bot perguntasse ao usuário, primeiramente, em qual perfil ele se encontrava. Para assim, responder conforme a necessidade
+msgs = [{
+            "role": "system",
+            "content": f'seja curto e objetivo nas respostas {context}'
+        }]
+while True:
+  pergunta=input("qual seu perfil?")
+  if pergunta in ["vitima", "afetado", "afetada", "atingida", "atingido"]:
+    msgs.append({'role': 'system', 'content': context1})
+    pergunta = input()
+  elif pergunta == "morador" or pergunta == "moradora":
+    msgs.append({'role': 'system', 'content': context2})
+    pergunta = input()
+  elif pergunta == "familia" or pergunta == "familiar":
+    msgs.append({'role': 'system', 'content': context3})
+    pergunta = input()
+  msgs.append({'role':'user', 'content':pergunta})
+  completion = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=msgs)
+  resposta=completion.choices[0].message.content
+  print(resposta)
+  msgs.append({'role':'assistant','content':resposta})
